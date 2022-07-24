@@ -1,0 +1,1 @@
+In part 0_6 of this exercies our message is in payload {content: "something", date: "2022-07-24T11:48:06.495Z"}, adding new content is happening without rendering all website. We can see only new_note_spa is appearing with our content.

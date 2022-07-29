@@ -1,28 +1,9 @@
 import { useState, useEffect } from "react";
+
 import "./App.css";
 import axios from "axios";
-const Country = ({ name, capital, area, flag, inputLength, coordinates }) => {
+const Country = ({ name, capital, area, flag, inputLength }) => {
   const [show, setShow] = useState(false);
-  const [weather, setWeather] = useState("");
-
-  //weather api
-  const lat = coordinates[0];
-  const lon = coordinates[1];
-  const api_key = process.env.REACT_APP_WEATHER_KEY;
-  useEffect(() => {
-    axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}`).then((response) => {
-      setWeather(response.data.weather[0]);
-      console.log(response.data.weather[0]);
-    });
-  }, []);
-  const displayWeather = (
-    <>
-      <h3>Weather</h3>
-      <h4>{weather.main}</h4>
-      <h5>{weather.description}</h5>
-      <img src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt="" />
-    </>
-  );
   const lessInfo = (
     <p>
       <span>{name}</span>
@@ -31,11 +12,10 @@ const Country = ({ name, capital, area, flag, inputLength, coordinates }) => {
   );
   const moreInfo = (
     <div style={{ borderBottom: "1px solid #ddd" }}>
-      <h1>{name}</h1>
+      <h3>{name}</h3>
       <p>Capital: {capital}</p>
       <p>Area: {area}</p>
       <img src={flag} alt="Country flag" style={{ display: "block" }} />
-      {weather !== "" ? displayWeather : null}
       <button onClick={() => setShow(!show)}>hide</button>
     </div>
   );
@@ -54,7 +34,6 @@ const CountryDisplay = ({ showCountries, inputLength }) => {
       capital={country.capital}
       key={country.name.common}
       name={country.name.common}
-      coordinates={country.latlng}
     />
   ));
   return countries;
@@ -63,7 +42,6 @@ const CountryDisplay = ({ showCountries, inputLength }) => {
 const App = () => {
   const [search, setSearch] = useState("");
   const [countries, setCountries] = useState([]);
-  const [countriesWeather, setCountriesWeather] = useState([]);
   const [showCountries, setShowCountries] = useState([]);
 
   useEffect(() => {

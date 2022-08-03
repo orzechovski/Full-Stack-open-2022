@@ -1,3 +1,8 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 body {
   background-color: #333;
   color: white;
@@ -15,4 +20,49 @@ body {
   background-color: rgb(40, 29, 29);
   color: red;
   margin: 1rem;
+}
+#root {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container {
+  width: max(600px, 60vw);
+  height: max(600px, 60vh);
+  display: grid;
+  gap: 0.5rem;
+  grid-template-areas:
+    "title title title"
+    "filter filter list"
+    "filter filter list"
+    "form form list"
+    "form form list"
+    "form form list";
+}
+.container > * {
+  font-size: clamp(1rem, 1vw, 3rem);
+  padding: 0.5rem;
+  background-color: #102126;
+  border-radius: 0.5rem;
+}
+.container__title {
+  display: flex;
+  align-items: flex-end;
+  grid-area: title;
+  font-size: 3rem;
+  color: #f4a261;
+  background-color: #264653;
+}
+.container__filter {
+  grid-area: filter;
+  background-color: #2a9d8f;
+}
+.container__form {
+  grid-area: form;
+  background-color: #e9c46a;
+}
+.container__phoneList {
+  grid-area: list;
+  background-color: #e76f51;
 }

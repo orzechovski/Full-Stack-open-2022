@@ -63,22 +63,30 @@ const App = () => {
   //showsPhoneBook
 
   return (
-    <div>
-      <h2>Phonebook</h2>
-      {error.length > 0 ? <ShowError error={error} /> : null}
-      {newPersonAdded.length > 0 ? <PersonAdd name={newPersonAdded} /> : null}
-      <Filter value={filter} onChange={(e) => handleFilter(e)} personsFiltered={personsFiltered} />
-      <h2>add a new</h2>
-      <PersonForm
-        submit={handleSubmit}
-        name={newName}
-        number={newNumber}
-        setName={(e) => setNewName(e.target.value)}
-        setNumber={(e) => setNewNumber(e.target.value)}
-      />
+    <div className="container">
+      <h2 className="container__title">Phonebook</h2>
 
-      <h2>Numbers</h2>
-      <Persons setError={setError} click={phoneBook.del} persons={persons} />
+      <div className="container__filter">
+        {error.length > 0 ? <ShowError error={error} /> : null}
+        {newPersonAdded.length > 0 ? <PersonAdd name={newPersonAdded} /> : null}
+        <Filter value={filter} onChange={(e) => handleFilter(e)} personsFiltered={personsFiltered} />
+      </div>
+
+      <div className="container__form">
+        <h2>add a new</h2>
+        <PersonForm
+          submit={handleSubmit}
+          name={newName}
+          number={newNumber}
+          setName={(e) => setNewName(e.target.value)}
+          setNumber={(e) => setNewNumber(e.target.value)}
+        />
+      </div>
+
+      <div className="container__phoneList">
+        <h2>Numbers</h2>
+        <Persons setError={setError} click={phoneBook.del} persons={persons} />
+      </div>
     </div>
   );
 };

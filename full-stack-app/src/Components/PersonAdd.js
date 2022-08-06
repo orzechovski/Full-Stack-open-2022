@@ -1,6 +1,6 @@
 const PersonAdd = ({ name }) => {
   return (
-    <div style={{ width: `${name.length + 6}ch` }} className="person__new">
+    <div style={{ width: `${name.length + 10}ch` }} className="person__new">
       Added {name}
     </div>
   );

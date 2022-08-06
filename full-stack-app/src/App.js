@@ -42,14 +42,21 @@ const App = () => {
       return;
     }
     //sets new person to phonebook
-    phoneBook.create(newPersonsBook).then((res) => setPersons([...persons, res]));
+    phoneBook
+      .create(newPersonsBook)
+      .then((res) => {
+        setPersons([...persons, res]);
+        setNewPersonAdded(newName);
+        setTimeout(() => setNewPersonAdded(""), 3000);
+      })
+      .catch((err) => {
+        setError(`${err.response.data.error}`);
+        setTimeout(() => setError(""), 3000);
+      });
 
-    setNewPersonAdded(newName);
     //clear inputs
     setNewName("");
     setNewNumber("");
-
-    setTimeout(() => setNewPersonAdded(""), 3000);
   };
 
   const handleFilter = (e) => {

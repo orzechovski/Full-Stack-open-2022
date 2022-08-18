@@ -9,10 +9,6 @@ const api = supertest(app);
 beforeEach(async () => {
   await Blog.deleteMany({});
   await Blog.insertMany(helper.blogs);
-  // let noteObject = new Blog(blogs[0]);
-  // await noteObject.save();
-  // noteObject = new Blog(blogs[1]);
-  // await noteObject.save();
 });
 
 describe('when there is initially some notes saved', () => {
@@ -84,11 +80,22 @@ describe('addidion of a new note', () => {
   });
 });
 
-describe('sucess with status code 204 if id is valid', () => {
-  test('Correct delete', async () => {
+describe('deleting', () => {
+  test('sucess with status code 204 if id is valid', async () => {
+    const newBlogs = await Blog.find({});
+    await api.delete(`/api/blogs/${newBlogs[0].id}`).expect(204);
+  });
+});
+describe('updating data', () => {
+  test('succes if returns updated data', async () => {
     const newBlogs = await Blog.find({});
     console.log(newBlogs[0].id);
-    await api.delete(`api/blogs/${newBlogs[0].id}`).expect(204);
+
+    await api.put(`/api/blogs/${newBlogs[0].id}`).send({ likes: '20' });
+
+    const updatedBlogs = await Blog.findById(newBlogs[0].id);
+    console.log(updatedBlogs);
+    expect(parseInt(updatedBlogs.likes)).toBe(20);
   });
 });
 

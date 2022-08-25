@@ -1,6 +1,6 @@
 const blogsRouter = require('express').Router();
 const Blog = require('../models/Blog');
-const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 blogsRouter.get('/', async (req, res) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 });
@@ -14,49 +14,56 @@ blogsRouter.get('/:id', async (req, res) => {
 
 blogsRouter.post('/', async (req, res) => {
   const { title, author, url, likes, id } = req.body;
+  const user = req.user;
+  const token = req.token;
 
-  const user = await User.findById(req.body.userId);
+  //token validation
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: 'token missing or invalid' });
+  }
 
   if ((title || url) === undefined) {
     return res.status(400).json({ error: 'content missing' });
   }
 
-  try {
-    const blog = new Blog({
-      title,
-      author,
-      url,
-      likes,
-      id,
-      user: user._id,
-    });
-    const blogSave = await blog.save();
-    user.blogs = user.blogs.concat(blogSave._id);
-    await user.save();
-    res.status(201).json(blogSave);
-  } catch (err) {
-    res.send(err);
-  }
+  const blog = new Blog({
+    title,
+    author,
+    url,
+    likes,
+    id,
+    user: user._id,
+  });
+  const blogSave = await blog.save();
+  user.blogs = user.blogs.concat(blogSave._id);
+  await user.save();
+  res.status(201).json(blogSave);
 });
 
 blogsRouter.delete('/:id', async (req, res) => {
-  try {
-    const deletedBlog = await Blog.findByIdAndDelete(req.params.id);
+  const user = req.user.toJSON();
+  const id = req.params.id;
+  const blog = await Blog.findById(id);
+
+  if (!blog) {
+    return res.status(400).json({ error: 'wrong url id' });
+  }
+
+  if (blog.toJSON().user.toJSON() === user.id) {
+    const deletedBlog = await Blog.findByIdAndDelete(id);
     res.status(204).json(deletedBlog);
-  } catch (err) {
-    console.log(err);
+  } else {
+    res.status(400).json({ error: 'invalid token for that operation' });
   }
 });
+
 blogsRouter.put('/:id', async (req, res) => {
-  console.log(req.body);
   if (req.body === undefined) {
     return res.status(400).json({ error: 'content missing' });
   }
-  try {
-    const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    res.json(updatedBlog);
-  } catch (err) {
-    console.log(err);
-  }
+  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+  res.json(updatedBlog);
 });
+
 module.exports = blogsRouter;

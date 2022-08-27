@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
+html {
+  background-color: #333;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+}
+.blog {
+  line-height: 150%;
+  border-bottom: 1px solid #969696;
+}
+form {
+  padding: 1em;
+}
+form div {
+  display: inline-block;
+  margin: 0.5em;
+  padding: 0.8em;
+  border-radius: 0.3rem;
+  border: 1px solid #969696;
+}
+form button {
+  margin: 0.5em;
+  color: #fff;
+  border: 1px solid #969696;
+  background-color: transparent;
+  padding: 1.1em 4em;
+  text-transform: uppercase;
+  border-radius: 0.3rem;
+  transition: color 0.2s, background-color 0.2s;
+  font-weight: bold;
+  cursor: pointer;
+}
+form button:hover {
+  background-color: #fff;
+  color: #333;
+}
+label {
+  display: block;
+  margin: 0.5em;
+}

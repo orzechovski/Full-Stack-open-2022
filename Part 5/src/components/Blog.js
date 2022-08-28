@@ -30,7 +30,7 @@ const Blog = ({ blog, setBlogs, blogs, setNotification }) => {
         submitingSupport('blogdeleted', `Blog named "${blog.title}" has been deleted`);
       } catch (err) {
         console.log(err);
-        submitingSupport('error', `You are not owner of that blog`);
+        submitingSupport('error', 'You are not owner of that blog');
       }
     }
   };

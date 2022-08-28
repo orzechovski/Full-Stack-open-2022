@@ -1,6 +1,44 @@
-const LoginForm = ({ submit, username, password, setUsername, setPassword }) => {
-  return (
-    <form onSubmit={submit}>
+import { useState, useEffect } from 'react';
+
+import loginService from '../services/login';
+import blogService from '../services/blogs';
+
+const LoginForm = ({ user, setUser, setNotification }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const submitingSupport = (type, content) => {
+    setNotification({ type, content });
+    setTimeout(() => setNotification({ type: '', content: '' }), 3000);
+    setUsername('');
+    setPassword('');
+  };
+
+  useEffect(() => {
+    const loggerUSerJSON = window.localStorage.getItem('loggedUser');
+    if (loggerUSerJSON) {
+      const user = JSON.parse(loggerUSerJSON);
+      setUser(user);
+      blogService.setToken(user.token);
+    }
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const user = await loginService.login({ username, password });
+      window.localStorage.setItem('loggedUser', JSON.stringify(user));
+      setUser(user);
+      blogService.setToken(user.token);
+      submitingSupport('login', 'Sucesfull Login');
+    } catch (err) {
+      submitingSupport('error', 'Wrong username or password');
+      console.log(err);
+    }
+  };
+
+  return user === null ? (
+    <form onSubmit={handleSubmit}>
       <div>
         username <input type="text" name="username" value={username} onChange={({ target }) => setUsername(target.value)} />
       </div>
@@ -9,6 +47,20 @@ const LoginForm = ({ submit, username, password, setUsername, setPassword }) => 
       </div>
       <button type="submit">login</button>
     </form>
+  ) : (
+    <div style={{ margin: '0.5em', color: 'lightgreen' }}>
+      {user.username} logged in
+      <button
+        onClick={() => {
+          window.localStorage.removeItem('loggedUser');
+          setNotification({ type: 'login', content: `${user.username} logout` });
+          setTimeout(() => setNotification({ type: '', content: '' }), 3000);
+          setUser(null);
+        }}
+      >
+        logout
+      </button>
+    </div>
   );
 };
 

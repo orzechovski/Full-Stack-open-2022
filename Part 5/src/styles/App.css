@@ -8,6 +8,10 @@ html {
   line-height: 150%;
   border-bottom: 1px solid #969696;
 }
+.blog__form {
+  border: 1px solid lightcoral;
+  border-radius: 0.3rem;
+}
 .blog button {
   padding: 0.2em 1em;
   background-color: transparent;
@@ -29,6 +33,9 @@ form div {
   padding: 0.8em;
   border-radius: 0.3rem;
   border: 1px solid #969696;
+}
+.notification {
+  height: 6vh;
 }
 
 button {

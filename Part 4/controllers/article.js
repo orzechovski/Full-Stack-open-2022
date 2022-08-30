@@ -7,11 +7,6 @@ blogsRouter.get('/', async (req, res) => {
   res.json(blogs);
 });
 
-blogsRouter.get('/:id', async (req, res) => {
-  const blogs = await Blog.findById(req.params.id);
-  res.json(blogs);
-});
-
 blogsRouter.post('/', async (req, res) => {
   const { title, author, url, likes, id } = req.body;
   const user = req.user;
@@ -38,7 +33,12 @@ blogsRouter.post('/', async (req, res) => {
   const blogSave = await blog.save();
   user.blogs = user.blogs.concat(blogSave._id);
   await user.save();
-  res.status(201).json(blogSave);
+  res.status(201).json(blogSave.toJSON());
+});
+
+blogsRouter.get('/:id', async (req, res) => {
+  const blogs = await Blog.findById(req.params.id);
+  res.json(blogs);
 });
 
 blogsRouter.delete('/:id', async (req, res) => {
@@ -62,8 +62,8 @@ blogsRouter.put('/:id', async (req, res) => {
   if (req.body === undefined) {
     return res.status(400).json({ error: 'content missing' });
   }
-  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-  res.json(updatedBlog);
+  const updatedBlog = await Blog.findByIdAndUpdate({ _id: req.params.id.toString() }, req.body, { new: true, runValidators: true });
+  res.json(updatedBlog.toJSON());
 });
 
 module.exports = blogsRouter;

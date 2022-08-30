@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
-import NewBlog from './components/NewBlog';
+import NewBlog from './components/BlogForm';
 import blogService from './services/blogs';
 import Togglable from './components/Togglable';
 
@@ -33,7 +33,7 @@ const App = () => {
         {blogs
           .sort((a, b) => b.likes - a.likes)
           .map((blog) => (
-            <Blog setNotification={setNotification} blogs={blogs} setBlogs={setBlogs} key={blog.id} blog={blog} />
+            <Blog key={blog.id} setBlogs={setBlogs} setNotification={setNotification} blogs={blogs} blog={blog} />
           ))}
       </div>
     </>

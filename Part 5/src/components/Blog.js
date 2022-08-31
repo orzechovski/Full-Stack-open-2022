@@ -43,7 +43,7 @@ const Blog = ({ blog, setBlogs, blogs, setNotification }) => {
           <div className="blog_fullsized">
             <div>Title: {title}</div>
             <div>link: {url}</div>
-            <div>
+            <div className="blog__likes">
               likes : {likes}
               <button className="like" onClick={updateBlog}>
                 like

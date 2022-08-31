@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import BlogForm from './BlogForm';
 import userEvent from '@testing-library/user-event';
 
+//this test is correct but only when we will disconnect axios async part from blog.js
 test('<BlogForm /> updates parent state and calls onSubmit', async () => {
   const createBlog = jest.fn();
   const user = userEvent.setup();

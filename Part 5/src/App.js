@@ -29,7 +29,7 @@ const App = () => {
         </Togglable>
       )}
 
-      <div>
+      <div className="blog_wraper">
         {blogs
           .sort((a, b) => b.likes - a.likes)
           .map((blog) => (

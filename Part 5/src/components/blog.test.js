@@ -35,6 +35,7 @@ describe('<Blog/>', () => {
     expect(blogFullsized).toHaveTextContent(blog.url);
   });
 
+  //this test is correct but only when we will disconnect axios async part from blog.js
   test('ensures that like button is clicked twice', async () => {
     const user = userEvent.setup();
 

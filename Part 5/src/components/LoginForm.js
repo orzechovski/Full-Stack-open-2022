@@ -38,7 +38,7 @@ const LoginForm = ({ user, setUser, setNotification }) => {
   };
 
   return user === null ? (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={'form__login'}>
       <div>
         username <input type="text" name="username" value={username} onChange={({ target }) => setUsername(target.value)} />
       </div>
@@ -51,6 +51,7 @@ const LoginForm = ({ user, setUser, setNotification }) => {
     <div style={{ margin: '0.5em', color: 'lightgreen' }}>
       {user.username} logged in
       <button
+        className="button__logout"
         onClick={() => {
           window.localStorage.removeItem('loggedUser');
           setNotification({ type: 'login', content: `${user.username} logout` });

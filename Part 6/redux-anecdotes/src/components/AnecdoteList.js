@@ -12,18 +12,18 @@ const AnectdoteList = () => {
     dispatch(addNotification(content))
     setTimeout(() => dispatch(removeNotification()), 5000)
   }
-
-  return anecdotes.map((anecdote) => (
-    <div key={anecdote.id} className="anecdote">
-      <div>{anecdote.content}</div>
-      <div>
-        has {anecdote.votes}
-        <button onClick={() => handleClick(anecdote.id, anecdote.content)}>vote</button>
+  return [...anecdotes]
+    .sort((a, b) => b.votes - a.votes)
+    .filter((e) => (filter ? e.content.toLowerCase().includes(filter.toLowerCase()) : e))
+    .map((anecdote) => (
+      <div key={anecdote.id} className="anecdote">
+        <div>{anecdote.content}</div>
+        <div>
+          has {anecdote.votes}
+          <button onClick={() => handleClick(anecdote.id, anecdote.content)}>vote</button>
+        </div>
       </div>
-    </div>
-  ))
+    ))
 }
-// SORT  TODO: boshhhhh
-// .filter((e) => (filter ? e.content.toLowerCase().includes(filter.toLowerCase()) : e))
 
 export default AnectdoteList

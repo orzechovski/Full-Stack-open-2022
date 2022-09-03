@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { vote } from '../reducers/anecdoteReducer'
+import { useEffect } from 'react'
+import { getAll, updateAnecdote } from '../services/anecdotes'
+import { vote, addAnecdotes } from '../reducers/anecdoteReducer'
 import { addNotification, removeNotification } from '../reducers/notificationReducer'
 
 const AnectdoteList = () => {
@@ -7,8 +9,13 @@ const AnectdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdotes)
   const filter = useSelector((state) => state.filter)
 
-  const handleClick = (id, content) => {
-    dispatch(vote(id))
+  useEffect(() => {
+    getAll().then((res) => dispatch(addAnecdotes(res)))
+  }, [dispatch])
+
+  const handleClick = async ({ id, content, votes }) => {
+    const updatedAnecdote = await updateAnecdote(id, { content, id, votes: votes + 1 })
+    dispatch(vote(updatedAnecdote))
     dispatch(addNotification(content))
     setTimeout(() => dispatch(removeNotification()), 5000)
   }
@@ -20,7 +27,7 @@ const AnectdoteList = () => {
         <div>{anecdote.content}</div>
         <div>
           has {anecdote.votes}
-          <button onClick={() => handleClick(anecdote.id, anecdote.content)}>vote</button>
+          <button onClick={() => handleClick(anecdote)}>vote</button>
         </div>
       </div>
     ))

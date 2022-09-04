@@ -1,8 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { getAll, updateAnecdote } from '../services/anecdotes'
-import { vote, addAnecdotes } from '../reducers/anecdoteReducer'
-import { addNotification, removeNotification } from '../reducers/notificationReducer'
+import { initializeAnecdotes, updatedAnecdote } from '../reducers/anecdoteReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const AnectdoteList = () => {
   const dispatch = useDispatch()
@@ -10,14 +9,12 @@ const AnectdoteList = () => {
   const filter = useSelector((state) => state.filter)
 
   useEffect(() => {
-    getAll().then((res) => dispatch(addAnecdotes(res)))
+    dispatch(initializeAnecdotes())
   }, [dispatch])
 
   const handleClick = async ({ id, content, votes }) => {
-    const updatedAnecdote = await updateAnecdote(id, { content, id, votes: votes + 1 })
-    dispatch(vote(updatedAnecdote))
-    dispatch(addNotification(content))
-    setTimeout(() => dispatch(removeNotification()), 5000)
+    dispatch(updatedAnecdote(id, content, votes))
+    dispatch(setNotification(content, 5))
   }
   return [...anecdotes]
     .sort((a, b) => b.votes - a.votes)

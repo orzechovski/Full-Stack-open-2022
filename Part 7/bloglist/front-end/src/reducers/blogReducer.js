@@ -11,7 +11,7 @@ const blogReducer = createSlice({
     addBlog(state, action) {
       return [...state, action.payload]
     },
-    giveLikeBlog(state, action) {
+    updateBlog(state, action) {
       const newBlog = action.payload
       return state.map((blog) => (blog.id === newBlog.id ? newBlog : blog))
     },
@@ -21,7 +21,7 @@ const blogReducer = createSlice({
   },
 })
 
-const { addBlogs, addBlog, giveLikeBlog, delBlog } = blogReducer.actions
+const { addBlogs, addBlog, updateBlog, delBlog } = blogReducer.actions
 
 export const initialBlogs = () => {
   return async (dispatch) => {
@@ -37,10 +37,16 @@ export const createdBlog = (blog) => {
   }
 }
 
-export const likeBlog = (id, blog) => {
+export const updatesBlog = (id, like) => {
   return async (dispatch) => {
-    const response = await update(id, blog)
-    dispatch(giveLikeBlog(response))
+    const resposne = await update(id, like)
+    dispatch(updateBlog(resposne))
+  }
+}
+export const likeBlog = (id, like) => {
+  return async (dispatch) => {
+    const resposne = await update(id, like)
+    dispatch(updateBlog(resposne))
   }
 }
 

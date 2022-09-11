@@ -1,20 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { login } from '../services/login'
 import { setToken, getToken } from '../services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { userSet } from '../reducers/userReducer'
+import useField from '../hooks'
 
 const LoginForm = () => {
   const user = useSelector((state) => state.users.logedUser)
   const dispatch = useDispatch()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const { reset: resetUsername, ...username } = useField('text')
+  const { reset: resetPassword, ...password } = useField('text')
 
   const submitingSupport = (type, content) => {
     dispatch(setNotification({ type, content }, 3))
-    setUsername('')
-    setPassword('')
+    resetUsername()
+    resetPassword()
   }
 
   useEffect(() => {
@@ -28,8 +29,9 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     try {
-      const user = await login({ username, password })
+      const user = await login({ username: username.value, password: password.value })
       window.localStorage.setItem('loggedUser', JSON.stringify(user))
       setToken(user.token)
       dispatch(userSet(user))
@@ -41,20 +43,26 @@ const LoginForm = () => {
   }
 
   return user === null ? (
-    <form onSubmit={handleSubmit} className="form__login">
-      <div>
-        username <input type="text" name="username" value={username} onChange={({ target }) => setUsername(target.value)} />
+    <form onSubmit={handleSubmit} className="ml-auto mx-6 flex items-center">
+      <div className="mx-2">
+        <input {...username} placeholder="username" className="text-black p-1 rounded-sm" />
       </div>
-      <div>
-        password <input type="text" name="password" value={password} onChange={({ target }) => setPassword(target.value)} />
+      <div className="mx-2">
+        <input {...password} placeholder="password" className="text-black p-1 rounded-sm" />
       </div>
-      <button type="submit">login</button>
+      <button
+        className="px-6 py-1 mx-6 text-white text-lg rounded-md bg-emerald-900 hover:bg-emerald-400
+       transition duration-200"
+        type="submit"
+      >
+        login
+      </button>
     </form>
   ) : (
-    <div className="form__login" style={{ color: 'lightgreen' }}>
-      {user.username} logged in
+    <div className="ml-auto px-6">
+      <span className="text-emerald-400">{user.username}</span> logged in
       <button
-        className="button__logout"
+        className=" px-6  py-1 mx-6 text-white text-lg rounded-md bg-emerald-900 hover:bg-emerald-400 transition duration-200"
         onClick={() => {
           window.localStorage.removeItem('loggedUser')
           submitingSupport('login', `${user.username} logout`)

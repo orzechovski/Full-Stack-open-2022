@@ -12,7 +12,7 @@ const BlogList = () => {
   }, [dispatch])
 
   return (
-    <div className="blog_wraper">
+    <div className="flex-col w-1/2 p-4">
       {[...blogList]
         .sort((a, b) => b.likes - a.likes)
         .map((blog) => (

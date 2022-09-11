@@ -13,15 +13,17 @@ const Togglable = ({ buttonLabel, children }) => {
   }
   return (
     user !== null && (
-      <div>
+      <div className="w-1/2 border-r border-slate-900 flex justify-center  ">
         <div style={hideWhenVisible}>
-          <button onClick={toggleVisibility} id="button_createBlog">
+          <button onClick={toggleVisibility} className="btn" id="button_createBlog">
             {buttonLabel}
           </button>
         </div>
-        <div style={showWhenVisible}>
+        <div style={showWhenVisible} className="flex-col w-2/6">
           {children}
-          <button onClick={toggleVisibility}>cancel</button>
+          <button onClick={toggleVisibility} className="btn bg-red-900 hover:bg-red-700 my-4">
+            cancel
+          </button>
         </div>
       </div>
     )

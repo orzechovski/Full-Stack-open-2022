@@ -1,115 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply px-6 py-1 mx-6 text-white text-lg rounded-md bg-emerald-900 hover:bg-emerald-400
+    transition duration-200;
+  }
+}
 html {
   background-color: #333;
   color: #fff;
   font-family: 'Roboto', sans-serif;
 }
-body {
-  margin: 0;
+.active {
+  border-bottom: 4px solid;
+  border-color: rgb(6 78 59);
 }
-nav {
-  display: flex;
-  height: 8vh;
-  align-items: center;
-  border-bottom: 1px solid white;
-  padding: 0 1rem;
-  margin-bottom: 2vh;
-}
-nav a:nth-of-type(1) {
-  margin-left: 5vw;
-}
-nav a {
-  text-decoration: none;
-  color: #fff;
-  border-bottom: 2px solid transparent;
-  transition: border 0.2s;
-  margin: 0 1rem;
-}
-nav a.active {
-  border-bottom: 2px solid lightblue;
-}
-.blog {
-  line-height: 150%;
-  border-bottom: 1px solid #969696;
-}
-.blog__form {
-  border: 1px solid lightcoral;
-  border-radius: 0.3rem;
-}
-.blog button {
-  padding: 0.2em 1em;
-  background-color: transparent;
-  color: tomato;
-  border-color: tomato;
-  font-size: 0.7em;
-}
-.blog button:hover {
-  background-color: tomato;
-  border-color: tomato;
-  color: #333;
-}
-form {
-  padding: 1em;
-}
-form div {
-  display: inline-block;
-  margin: 0.5em;
-  padding: 0.8em;
-  border-radius: 0.3rem;
-  border: 1px solid #969696;
-}
-.wraper {
-  margin: 1rem;
-}
-.notification {
-  height: 6vh;
-}
-.form__login {
-  margin-left: auto;
-}
-
-button {
-  margin: 0.5em;
-  padding: 0.5em 1.5em;
-  font-weight: bolder;
-  border: none;
-  border-radius: 0.3rem;
-  background-color: lightblue;
-  border: 2px solid lightblue;
-
-  color: #333;
-  transition: color 0.2s, background-color 0.2s;
-  cursor: pointer;
-}
-button:hover {
-  background-color: #333;
-  color: lightblue;
-  border: 2px solid lightblue;
-}
-form button {
-  color: #fff;
-  border: 1px solid #969696;
-  background-color: transparent;
-  padding: 1em 2em;
-  text-transform: uppercase;
-}
-form button:hover {
-  background-color: #fff;
-  border: 1px solid #fff;
-  color: #333;
-}
-
-label {
-  display: block;
-  margin: 0.5em;
-}
-.blog .button--delete {
-  color: #ee0000;
-  border-color: #ee0000;
-}
-.blog .button--delete:hover {
-  color: #333;
-  background-color: #ee0000;
-  border-color: #ee0000;
+a {
+  border-bottom: 4px solid transparent;
 }

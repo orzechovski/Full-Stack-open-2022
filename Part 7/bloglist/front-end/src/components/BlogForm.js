@@ -18,21 +18,45 @@ const NewBlog = () => {
   }
 
   return (
-    <>
-      <h2>Create new 📋</h2>
-      <form onSubmit={handleCreateBlog} className="blog__form">
-        <label>
-          title: <input type="text" name="title" value={title} onChange={({ target }) => setBlog({ ...blog, title: target.value })} />
-        </label>{' '}
-        <label>
-          author: <input type="text" name="author" value={author} onChange={({ target }) => setBlog({ ...blog, author: target.value })} />
-        </label>{' '}
-        <label>
-          url: <input type="text" name="url" value={url} onChange={({ target }) => setBlog({ ...blog, url: target.value })} />
+    <div className="flex-col">
+      <h2 className="text-center p-4 text-2xl">Create new 📋</h2>
+
+      <form onSubmit={handleCreateBlog} className="flex-col">
+        <label className="flex items-center">
+          title:{' '}
+          <input
+            className="text-black p-1 rounded-sm m-2 ml-auto"
+            type="text"
+            name="title"
+            value={title}
+            onChange={({ target }) => setBlog({ ...blog, title: target.value })}
+          />
         </label>
-        <button type="submit">Add new Blog</button>
+        <label className="flex items-center">
+          author:
+          <input
+            className="text-black p-1 rounded-sm m-2 ml-auto"
+            type="text"
+            name="author"
+            value={author}
+            onChange={({ target }) => setBlog({ ...blog, author: target.value })}
+          />
+        </label>
+        <label className="flex items-center">
+          url:
+          <input
+            className="text-black p-1 rounded-sm m-2 ml-auto"
+            type="text"
+            name="url"
+            value={url}
+            onChange={({ target }) => setBlog({ ...blog, url: target.value })}
+          />
+        </label>
+        <button type="submit" className="btn">
+          Add new Blog
+        </button>
       </form>
-    </>
+    </div>
   )
 }
 

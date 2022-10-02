@@ -8,6 +8,7 @@ router.get('/', (_req, res) => {
 })
 
 router.post('/', (req, res) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const newPatient = toNewPatientEntry(req.body)
   res.send(addPatient(newPatient))
 })
